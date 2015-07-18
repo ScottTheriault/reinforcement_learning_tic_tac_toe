@@ -5,7 +5,7 @@ import game.Board;
 import java.util.Random;
 
 //Plays a random move or looks a head x moves to create optimal move
-public class RandomLookaheadPlayer extends AIPlayer {
+public class RandomLookaheadPlayer implements Player {
 
 	Random ran;
 
