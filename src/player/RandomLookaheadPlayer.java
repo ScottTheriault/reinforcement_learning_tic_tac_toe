@@ -34,11 +34,12 @@ public class RandomLookaheadPlayer implements Player {
 	//checks if can win this turn, if can't win, looks to prevent other from winning next turn
 	private boolean lookahead1(Board board) {
 		boolean moved = false;
-		moved = winningMove(board, board.getTurnPiece());
 
+		moved = winningMove(board, board.getTurnPiece());
 		if(!moved) {
 			moved = winningMove(board, board.getNextTurnPiece());
 		}
+
 		return moved;
 	}
 
@@ -47,6 +48,10 @@ public class RandomLookaheadPlayer implements Player {
 		moved=winningLine(board, piece, false);
 		if (!moved) {
 			moved=winningLine(board, piece, true);
+		} if (!moved) {
+			moved=winningDiagonal(board, piece, false);
+		} if (!moved) {
+			moved=winningDiagonal(board, piece, true);
 		}
 		return moved;
 	}
@@ -76,6 +81,32 @@ public class RandomLookaheadPlayer implements Player {
 					return true;
 				}
 			}
+		}
+		return false;
+	}
+
+	private boolean winningDiagonal(Board board, char piece, boolean flip) {
+		int emptyX = -1;
+		int emptyY = -1;
+
+		char fill1 = '\0';
+		char fill2 = '\0';
+
+		for (int i = 0; i < 3; i++) { //Top left to bottom right
+			char space = (!flip) ? board.getSpace(i, i) : board.getSpace(i, 2-i);
+			if (space == '\0') {
+				emptyX = i;
+				emptyY = (!flip) ? i : 2-i;
+			} else if (fill1 == '\0') {
+				fill1 = space;
+			} else {
+				fill2 = space;
+			}
+		}
+
+		if (emptyX != -1 && emptyY != -1 && (fill1^fill2) == 0) {
+			board.move(emptyX, emptyY);
+			return true;
 		}
 		return false;
 	}
