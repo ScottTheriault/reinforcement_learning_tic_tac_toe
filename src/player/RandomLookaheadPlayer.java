@@ -151,4 +151,12 @@ public class RandomLookaheadPlayer implements Player {
 	@Override
 	public void addWin(boolean first_win, Board board) {}
 
+	public int getLookahead_set() {
+		return lookahead_set;
+	}
+
+	public void setLookahead_set(int lookahead_set) {
+		this.lookahead_set = lookahead_set;
+	}
+
 }

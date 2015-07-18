@@ -14,7 +14,9 @@ public class Run {
 	private static Scanner KB;
 
 	private static Player humanPlayer;
-	private static Player randomLookaheadPlayer;
+	private static RandomLookaheadPlayer randomLookaheadPlayer;
+
+	private static boolean alternatingTurns = true;
 
 	public static void main(String[] args) {
 		KB = new Scanner(System.in);
@@ -53,6 +55,10 @@ public class Run {
 		for (int i = 0; i<rounds; i++) {
 			Game game = new Game(player1, player2);
 			game.play();
+			if (alternatingTurns) {
+				game = new Game(player2, player1);
+				game.play();
+			}
 		}
 
 		mainMenu();
@@ -61,6 +67,23 @@ public class Run {
 	private static void optionMenu() {
 		System.out.println("Option Menu:");
 		System.out.println("____________");
+
+		System.out.println("(1) Random Lookahead:" + ((randomLookaheadPlayer.getLookahead_set() == RandomLookaheadPlayer.LOOKAHEAD_1) ? "ON" : "OFF"));
+		System.out.println("(2) Alternating Turns:" + ((alternatingTurns) ? "ON" : "OFF"));
+		System.out.println("(3) Main Menu:");
+
+		String option = KB.nextLine();
+
+		switch (option){
+		case "1": randomLookaheadPlayer.setLookahead_set(randomLookaheadPlayer.getLookahead_set()^RandomLookaheadPlayer.LOOKAHEAD_1);
+			break;
+		case "2": alternatingTurns = !alternatingTurns;
+			break;
+		case "3": mainMenu();
+			return;
+		}
+
+		optionMenu();
 	}
 
 	private static void exit() {
