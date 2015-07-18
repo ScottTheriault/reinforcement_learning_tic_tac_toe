@@ -52,7 +52,7 @@ public class RandomLookaheadPlayer implements Player {
 		return false;
 	}
 
-	private boolean winningMove(Board board, String piece) {
+	private boolean winningMove(Board board, char piece) {
 		boolean moved = false;
 		moved=winningLine(board, piece, false);
 		if (!moved) {
@@ -61,18 +61,18 @@ public class RandomLookaheadPlayer implements Player {
 		return moved;
 	}
 
-	private boolean winningLine(Board board, String piece, boolean flip) {
+	private boolean winningLine(Board board, char piece, boolean flip) {
 		for (int x = 0; x<3; x++) {
 			for (int y = 0; y<3; y++) {
 				boolean move = true;
-				String spot = (!flip) ? board.getSpace(x, y) : board.getSpace(y, x);
-				if (spot != null) {
+				char spot = (!flip) ? board.getSpace(x, y) : board.getSpace(y, x);
+				if (spot != '\0') {
 					move = false;
 				}
 
 				for (int yAgain = 0; yAgain < 3; yAgain++) {
-					String otherSpot = (!flip) ? board.getSpace(x, yAgain) : board.getSpace(yAgain, x);
-					if (y != yAgain && !piece.equals(otherSpot)) {
+					char otherSpot = (!flip) ? board.getSpace(x, yAgain) : board.getSpace(yAgain, x);
+					if (y != yAgain && piece != otherSpot) {
 						move = false;
 					}
 				}
@@ -105,7 +105,7 @@ public class RandomLookaheadPlayer implements Player {
 		if (empty[0] < 0 || empty[1] < 0) {
 			empty[0] = 0;
 			empty[1] = 0;
-			if (board.getSpace(0, 0) == null) {
+			if (board.getSpace(0, 0) == '\0') {
 				return empty;
 			}
 		}
@@ -113,7 +113,7 @@ public class RandomLookaheadPlayer implements Player {
 		while(empty[0] < 3) {
 			while (empty[1] < 2) {
 				empty[1]++;
-				if (board.getSpace(empty[0], empty[1]) == null) {
+				if (board.getSpace(empty[0], empty[1]) == '\0') {
 					return empty;
 				}
 			}
