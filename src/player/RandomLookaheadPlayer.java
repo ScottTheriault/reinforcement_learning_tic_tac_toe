@@ -104,7 +104,7 @@ public class RandomLookaheadPlayer implements Player {
 			}
 		}
 
-		if (emptyX != -1 && emptyY != -1 && (fill1^fill2) == 0) {
+		if (emptyX != -1 && emptyY != -1 && fill1 !='\0' && fill2 !='\0' && (fill1^fill2) == 0) {
 			board.move(emptyX, emptyY);
 			return true;
 		}
