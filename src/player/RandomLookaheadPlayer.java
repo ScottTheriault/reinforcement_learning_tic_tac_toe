@@ -9,7 +9,6 @@ public class RandomLookaheadPlayer implements Player {
 
 	public static final int LOOKAHEAD_0 = 0;
 	public static final int LOOKAHEAD_1 = 1;
-	public static final int LOOKAHEAD_2 = 2;
 
 	private int lookahead_set = 1;
 
@@ -23,12 +22,8 @@ public class RandomLookaheadPlayer implements Player {
 	public void move(Board board) {
 		boolean moved = false;
 
-		if (lookahead_set == LOOKAHEAD_1 || lookahead_set == LOOKAHEAD_2) {
+		if (lookahead_set == LOOKAHEAD_1) {
 			moved = lookahead1(board);
-		}
-
-		if (!moved && lookahead_set == LOOKAHEAD_2) {
-			moved = lookahead2(board);
 		}
 
 		if (!moved) {
@@ -45,11 +40,6 @@ public class RandomLookaheadPlayer implements Player {
 			moved = winningMove(board, board.getNextTurnPiece());
 		}
 		return moved;
-	}
-
-	private boolean lookahead2(Board board) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	private boolean winningMove(Board board, char piece) {
