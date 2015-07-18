@@ -65,6 +65,10 @@ public class Board {
 		}
 	}
 
+	public String getSpace(int x, int y) {
+		return board[x][y];
+	}
+
 	public boolean isFinished() {
 		return (moves == 9 || firstWin || secondWin);
 	}
@@ -76,6 +80,10 @@ public class Board {
 
 	public boolean isSecond_win() {
 		return secondWin;
+	}
+
+	public int getMoves() {
+		return moves;
 	}
 
 }

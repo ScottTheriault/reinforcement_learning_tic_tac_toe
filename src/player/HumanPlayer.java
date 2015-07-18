@@ -4,6 +4,7 @@ import game.Board;
 
 import java.util.Scanner;
 
+//Human player you control
 public class HumanPlayer implements Player {
 
 	private Scanner KB;
