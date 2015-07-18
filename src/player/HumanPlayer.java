@@ -33,9 +33,9 @@ public class HumanPlayer implements Player {
 	}
 
 	@Override
-	public void addWin(boolean first_win, Board board) {
+	public void addWin(boolean won, Board board) {
 		board.print();
-		System.out.println((first_win) ? "You Win :-)" : "You Lost :-(");
+		System.out.println((won) ? "You Win :-)" : "You Lost :-(");
 	}
 
 }

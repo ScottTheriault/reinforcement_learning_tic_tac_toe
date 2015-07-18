@@ -149,7 +149,7 @@ public class RandomLookaheadPlayer implements Player {
 	@Override
 	public void tieGame(Board board) {}
 	@Override
-	public void addWin(boolean first_win, Board board) {}
+	public void addWin(boolean won, Board board) {}
 
 	public int getLookahead_set() {
 		return lookahead_set;

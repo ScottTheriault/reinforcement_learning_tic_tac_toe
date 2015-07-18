@@ -8,6 +8,6 @@ public interface Player {
 
 	public void tieGame(Board board);
 
-	public void addWin(boolean first_win, Board board);
+	public void addWin(boolean won, Board board);
 
 }
