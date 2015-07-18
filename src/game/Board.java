@@ -18,11 +18,11 @@ public class Board {
 
 	public void move(int x, int y) {
 		if (board[x][y] == null) {
-			board[x][y] = (moves%2 == 0) ? FIRST : SECOND;;
+			board[x][y] = getTurnPiece();
 			checkFinished(x, y);
 			moves++;
 		} else {
-			System.out.println("Invalid Move: Game Tie");
+			System.out.println("Invalid Move: " + x + ": " + y);
 			moves = 9;
 		}
 	}
@@ -63,6 +63,14 @@ public class Board {
 			}
 			System.out.println("");
 		}
+	}
+
+	public String getTurnPiece() {
+		return (moves%2 == 0) ? FIRST : SECOND;
+	}
+
+	public String getNextTurnPiece() {
+		return (moves%2 == 0) ? SECOND : FIRST;
 	}
 
 	public String getSpace(int x, int y) {
