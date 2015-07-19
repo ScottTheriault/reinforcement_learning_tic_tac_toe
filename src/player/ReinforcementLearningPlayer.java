@@ -20,6 +20,11 @@ public class ReinforcementLearningPlayer implements Player {
 	private int lossGain = -30;
 	private int tieGain = 1;
 
+	private int games = 0;
+	private int wins = 0;
+	private int losses = 0;
+	private int ties = 0;
+
 	public ReinforcementLearningPlayer() throws SQLException {
 		turnRepository = new TurnRepository();
 		movesMade = new ArrayList<Move>();
@@ -55,20 +60,44 @@ public class ReinforcementLearningPlayer implements Player {
 
 	@Override
 	public void tieGame(Board board) {
+		games ++;
 		try {
 			turnRepository.addGains(movesMade, tieGain);
+			ties++;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+
+		if (games == 9) {
+			printStanding();
 		}
 	}
 
 	@Override
 	public void addWin(boolean won, Board board) {
+		games ++;
 		try {
-			turnRepository.addGains(movesMade, (won) ? winGain : lossGain);
+			if (won) {
+				wins++;
+				turnRepository.addGains(movesMade, winGain);
+			} else {
+				losses++;
+				turnRepository.addGains(movesMade, lossGain);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if (games == 9) {
+			printStanding();
+		}
+	}
+
+	private void printStanding() {
+		System.out.println("W/L/T:" + wins + "/" + losses + "/" + ties);
+		games = 0;
+		wins = 0;
+		losses = 0;
+		ties = 0;
 	}
 
 }
