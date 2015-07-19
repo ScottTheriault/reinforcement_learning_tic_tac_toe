@@ -96,7 +96,7 @@ public class TurnRepository {
 			}
 		}
 
-		List<Move> moves = new ArrayList<Move>();
+		List<Move> moves = getPosibleMoves(board);
 
 		return moves;
 	}
