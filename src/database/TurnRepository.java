@@ -100,4 +100,12 @@ public class TurnRepository {
 
 		return moves;
 	}
+
+	public void addGains(List<Move> moves, int gain) throws SQLException {
+		for (Move move: moves) {
+			String sql = "UPDATE turn_" + move.getMoves() + " SET value = " + (move.getValue() + gain) + " WHERE id = " + move.getId();
+			PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);
+			statement.execute();
+		}
+	}
 }

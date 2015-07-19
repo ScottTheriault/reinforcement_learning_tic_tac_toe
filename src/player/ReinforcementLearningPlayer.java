@@ -16,6 +16,10 @@ public class ReinforcementLearningPlayer implements Player {
 
 	private List<Move> movesMade;
 
+	private int winGain = 10;
+	private int lossGain = -30;
+	private int tieGain = 1;
+
 	public ReinforcementLearningPlayer() throws SQLException {
 		turnRepository = new TurnRepository();
 		movesMade = new ArrayList<Move>();
@@ -51,14 +55,20 @@ public class ReinforcementLearningPlayer implements Player {
 
 	@Override
 	public void tieGame(Board board) {
-		// TODO Auto-generated method stub
-		
+		try {
+			turnRepository.addGains(movesMade, tieGain);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void addWin(boolean won, Board board) {
-		// TODO Auto-generated method stub
-		
+		try {
+			turnRepository.addGains(movesMade, (won) ? winGain : lossGain);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
