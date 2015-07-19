@@ -20,6 +20,9 @@ public class ReinforcementLearningPlayer implements Player {
 	private int lossGain = -30;
 	private int tieGain = 1;
 
+	private boolean printScore = true;
+	private int printOn = 10;
+
 	private int games = 0;
 	private int wins = 0;
 	private int losses = 0;
@@ -68,7 +71,7 @@ public class ReinforcementLearningPlayer implements Player {
 			e.printStackTrace();
 		}
 
-		if (games == 9) {
+		if (games == printOn) {
 			printStanding();
 		}
 	}
@@ -87,7 +90,7 @@ public class ReinforcementLearningPlayer implements Player {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (games == 9) {
+		if (games == printOn) {
 			printStanding();
 		}
 	}
@@ -98,6 +101,37 @@ public class ReinforcementLearningPlayer implements Player {
 		wins = 0;
 		losses = 0;
 		ties = 0;
+	}
+
+	public int getWinGain() {
+		return winGain;
+	}
+	public void setWinGain(int winGain) {
+		this.winGain = winGain;
+	}
+	public int getLossGain() {
+		return lossGain;
+	}
+	public void setLossGain(int lossGain) {
+		this.lossGain = lossGain;
+	}
+	public int getTieGain() {
+		return tieGain;
+	}
+	public void setTieGain(int tieGain) {
+		this.tieGain = tieGain;
+	}
+	public boolean isPrintScore() {
+		return printScore;
+	}
+	public void setPrintScore(boolean printScore) {
+		this.printScore = printScore;
+	}
+	public int getPrintOn() {
+		return printOn;
+	}
+	public void setPrintOn(int printOn) {
+		this.printOn = printOn;
 	}
 
 }

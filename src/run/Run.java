@@ -17,7 +17,7 @@ public class Run {
 
 	private static Player humanPlayer;
 	private static RandomLookaheadPlayer randomLookaheadPlayer;
-	private static ReinforcementLearningPlayer rlPlayer1;
+	private static ReinforcementLearningPlayer rlPlayer;
 
 	private static boolean alternatingTurns = true;
 
@@ -26,7 +26,7 @@ public class Run {
 
 		humanPlayer = new HumanPlayer();
 		randomLookaheadPlayer = new RandomLookaheadPlayer();
-		rlPlayer1 = new ReinforcementLearningPlayer();
+		rlPlayer = new ReinforcementLearningPlayer();
 
 		mainMenu();
 	}
@@ -36,7 +36,8 @@ public class Run {
 		System.out.println("__________");
 		System.out.println("(1) Play");
 		System.out.println("(2) Options");
-		System.out.println("(3) Exit");
+		System.out.println("(3) Reinforement Learning Player Options");
+		System.out.println("(4) Exit");
 
 		String option = KB.nextLine();
 
@@ -45,7 +46,9 @@ public class Run {
 				break;
 			case "2": optionMenu();
 				break;
-			case "3": exit();
+			case "3": rlPlayerOptions();
+				break;
+			case "4": exit();
 			default : mainMenu();
 		}
 	}
@@ -79,15 +82,57 @@ public class Run {
 		String option = KB.nextLine();
 
 		switch (option){
-		case "1": randomLookaheadPlayer.setLookahead_set(randomLookaheadPlayer.getLookahead_set()^RandomLookaheadPlayer.LOOKAHEAD_1);
-			break;
-		case "2": alternatingTurns = !alternatingTurns;
-			break;
-		case "3": mainMenu();
-			return;
+			case "1": randomLookaheadPlayer.setLookahead_set(randomLookaheadPlayer.getLookahead_set()^RandomLookaheadPlayer.LOOKAHEAD_1);
+				break;
+			case "2": alternatingTurns = !alternatingTurns;
+				break;
+			case "3": mainMenu();
+				return;
 		}
 
 		optionMenu();
+	}
+
+	private static void rlPlayerOptions() {
+		System.out.println("Learner Option:");
+		System.out.println("______________");
+
+		System.out.println("(1) Win Gain:" + rlPlayer.getWinGain());
+		System.out.println("(2) Loss Gain:" + rlPlayer.getLossGain());
+		System.out.println("(3) Tie Gain:" + rlPlayer.getTieGain());
+		System.out.println("(4) Print Score:" + (rlPlayer.isPrintScore() ? "ON" : "OFF"));
+		System.out.println("(5) Print On Games:" + rlPlayer.getPrintOn());
+		System.out.println("(6) Main Menu:");
+
+		String option = KB.nextLine();
+
+		switch (option){
+			case "1": rlPlayer.setWinGain(getNextInt());
+				break;
+			case "2": rlPlayer.setLossGain(getNextInt());
+				break;
+			case "3": rlPlayer.setTieGain(getNextInt());
+				break;
+			case "4": rlPlayer.setPrintScore(!rlPlayer.isPrintScore());
+				break;
+			case "5": rlPlayer.setPrintOn(getNextInt());
+				break;
+			case "6": mainMenu();
+				return;
+		}
+
+		rlPlayerOptions();
+	}
+
+	private static int getNextInt() {
+		String num = KB.nextLine();
+		if (Util.isInteger(num)) {
+			return Integer.parseInt(num);
+		} else {
+			System.out.println("Not a integer");
+			System.exit(1);
+		}
+		return 0;
 	}
 
 	private static void exit() {
@@ -112,7 +157,7 @@ public class Run {
 				break;
 			case "2": player = randomLookaheadPlayer;
 				break;
-			case "3": player = rlPlayer1;
+			case "3": player = rlPlayer;
 				break;
 			default : return getPlayer(number);
 		}
