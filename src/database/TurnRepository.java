@@ -54,6 +54,7 @@ public class TurnRepository {
 			Move move = new Move();
 			move.setId(results.getInt("id"));
 			move.setValue(results.getInt("value"));
+			move.setMoves(board.getMoves());
 
 			String moveString[] = results.getString("move").split("-");
 
