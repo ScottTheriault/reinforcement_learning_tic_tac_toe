@@ -10,7 +10,7 @@ public class RandomLookaheadPlayer implements Player {
 	public static final int LOOKAHEAD_0 = 0;
 	public static final int LOOKAHEAD_1 = 1;
 
-	private int lookahead_set = 1;
+	private int lookahead_set = 0;
 
 	Random ran;
 
