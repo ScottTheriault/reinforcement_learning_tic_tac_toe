@@ -44,6 +44,11 @@ public class ReinforcementLearningPlayer implements Player {
 		List<Move> moves = null;
 		try {
 			moves = turnRepository.getPosibleMoves(board);
+			for (Move move: moves) {
+				if (movesMadeAll.containsKey(move.getId())) {
+					move.setValue(movesMadeAll.get(move.getId()).getValue());
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.exit(1);
