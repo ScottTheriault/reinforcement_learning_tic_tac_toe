@@ -4,7 +4,7 @@ package moves;
 public class Move {
 
 	private int id;
-	private int value;
+	private int value = 1000;
 	private int moves;
 	private int[] move;
 

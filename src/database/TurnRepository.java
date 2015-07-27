@@ -6,10 +6,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
-import util.Util;
 import moves.Move;
+import util.Util;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -102,9 +104,10 @@ public class TurnRepository {
 		return moves;
 	}
 
-	public void addGains(List<Move> moves, int gain) throws SQLException {
-		for (Move move: moves) {
-			String sql = "UPDATE turn_" + move.getMoves() + " SET value = " + (move.getValue() + gain) + " WHERE id = " + move.getId();
+	public void updateMoves(Iterator<Entry<Integer, Move>> movesIterator) throws SQLException {
+		while (movesIterator.hasNext()) {
+			Move move = (Move)movesIterator.next().getValue();
+			String sql = "UPDATE turn_" + move.getMoves() + " SET value = " + move.getValue() + " WHERE id = " + move.getId();
 			PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);
 			statement.execute();
 		}

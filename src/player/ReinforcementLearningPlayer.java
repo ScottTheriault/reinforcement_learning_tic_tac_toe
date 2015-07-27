@@ -4,7 +4,9 @@ import game.Board;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import moves.Move;
@@ -14,7 +16,8 @@ public class ReinforcementLearningPlayer implements Player {
 
 	private TurnRepository turnRepository;
 
-	private List<Move> movesMade;
+	private List<Move> movesMadeGame;
+	private Map<Integer, Move> movesMadeAll;
 
 	private int winGain = 10;
 	private int lossGain = -30;
@@ -30,7 +33,8 @@ public class ReinforcementLearningPlayer implements Player {
 
 	public ReinforcementLearningPlayer() throws SQLException {
 		turnRepository = new TurnRepository();
-		movesMade = new ArrayList<Move>();
+		movesMadeGame = new ArrayList<Move>();
+		movesMadeAll = new HashMap<Integer, Move>();
 	}
 
 	@Override
@@ -55,7 +59,7 @@ public class ReinforcementLearningPlayer implements Player {
 			moveScore-=move.getValue();
 			if (moveScore <= 0) {
 				board.move(move.getMove()[0], move.getMove()[1]);
-				movesMade.add(move);
+				movesMadeGame.add(move);
 				return;
 			}
 		}
@@ -64,12 +68,8 @@ public class ReinforcementLearningPlayer implements Player {
 	@Override
 	public void tieGame(Board board) {
 		games ++;
-		try {
-			turnRepository.addGains(movesMade, tieGain);
-			ties++;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		updateValues(tieGain);
+		ties++;
 
 		if (games == printOn) {
 			printStanding();
@@ -79,20 +79,40 @@ public class ReinforcementLearningPlayer implements Player {
 	@Override
 	public void addWin(boolean won, Board board) {
 		games ++;
-		try {
-			if (won) {
-				wins++;
-				turnRepository.addGains(movesMade, winGain);
-			} else {
-				losses++;
-				turnRepository.addGains(movesMade, lossGain);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (won) {
+			wins++;
+			updateValues(winGain);
+		} else {
+			losses++;
+			updateValues(lossGain);
 		}
 		if (games == printOn) {
 			printStanding();
 		}
+	}
+
+	private void updateValues(int gain) {
+		for (Move move: movesMadeGame) {
+			move.setValue(move.getValue() + gain);
+			if (movesMadeAll.get(move.getId()) == null) {
+				move.setValue(move.getValue() + gain);
+				movesMadeAll.put(move.getId(), move);
+			} else {
+				Move allMove = movesMadeAll.get(move.getId());
+				allMove.setValue(allMove.getValue()+gain);
+			}
+		}
+		movesMadeGame = new ArrayList<Move>();
+	}
+
+	public void save() {
+		try {
+			turnRepository.updateMoves(movesMadeAll.entrySet().iterator());
+			movesMadeAll = new HashMap<Integer, Move>();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		movesMadeAll = new HashMap<Integer, Move>();
 	}
 
 	private void printStanding() {

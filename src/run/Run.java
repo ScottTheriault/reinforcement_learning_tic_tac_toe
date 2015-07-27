@@ -68,6 +68,19 @@ public class Run {
 			}
 		}
 
+		ReinforcementLearningPlayer RLP = null;
+
+		if (player1 instanceof ReinforcementLearningPlayer) {
+			RLP = (ReinforcementLearningPlayer) player1;
+		} else if (player2 instanceof ReinforcementLearningPlayer) {
+			RLP = (ReinforcementLearningPlayer) player2;
+		}
+
+		if (RLP != null) {
+			System.out.println("Saving");
+			RLP.save();
+		}
+
 		mainMenu();
 	}
 
