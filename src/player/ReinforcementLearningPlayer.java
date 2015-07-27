@@ -23,6 +23,8 @@ public class ReinforcementLearningPlayer implements Player {
 	private int lossGain = -10;
 	private int tieGain = 1;
 
+	private int movesBonus = 2;
+
 	private boolean printScore = true;
 	private int printOn = 10;
 
@@ -72,7 +74,7 @@ public class ReinforcementLearningPlayer implements Player {
 	@Override
 	public void tieGame(Board board) {
 		games ++;
-		updateValues(tieGain);
+		updateValues(tieGain, board);
 		ties++;
 
 		if (games == printOn) {
@@ -85,25 +87,31 @@ public class ReinforcementLearningPlayer implements Player {
 		games ++;
 		if (won) {
 			wins++;
-			updateValues(winGain);
+			updateValues(winGain, board);
 		} else {
 			losses++;
-			updateValues(lossGain);
+			updateValues(lossGain, board);
 		}
 		if (games == printOn) {
 			printStanding();
 		}
 	}
 
-	private void updateValues(int gain) {
+	private void updateValues(int gain, Board board) {
+		int turnBonus = (9 - board.getMoves()) * movesBonus;
+		if (gain < 0) {
+			turnBonus *= -1;
+		}
+
+		int updateValue = gain + turnBonus;
 		for (Move move: movesMadeGame) {
-			move.setValue(move.getValue() + gain);
+			move.setValue(move.getValue() + updateValue);
 			if (movesMadeAll.get(move.getId()) == null) {
-				move.setValue(move.getValue() + gain);
+				move.setValue(move.getValue() + updateValue);
 				movesMadeAll.put(move.getId(), move);
 			} else {
 				Move allMove = movesMadeAll.get(move.getId());
-				allMove.setValue(allMove.getValue()+gain);
+				allMove.setValue(allMove.getValue()+updateValue);
 			}
 		}
 		movesMadeGame = new ArrayList<Move>();
