@@ -98,21 +98,17 @@ public class ReinforcementLearningPlayer implements Player {
 	}
 
 	private void updateValues(int gain, Board board) {
-		int turnBonus = (9 - board.getMoves()) * movesBonus;
-		if (gain < 0) {
-			turnBonus *= -1;
-		}
-
-		int updateValue = gain + turnBonus;
+		int turnBonus = gain;
 		for (Move move: movesMadeGame) {
-			move.setValue(move.getValue() + updateValue);
+			move.setValue(move.getValue() + turnBonus);
 			if (movesMadeAll.get(move.getId()) == null) {
-				move.setValue(move.getValue() + updateValue);
+				move.setValue(move.getValue() + turnBonus);
 				movesMadeAll.put(move.getId(), move);
 			} else {
 				Move allMove = movesMadeAll.get(move.getId());
-				allMove.setValue(allMove.getValue()+updateValue);
+				allMove.setValue(allMove.getValue()+turnBonus);
 			}
+			turnBonus+=(gain > 0) ? movesBonus : -movesBonus;
 		}
 		movesMadeGame = new ArrayList<Move>();
 	}
