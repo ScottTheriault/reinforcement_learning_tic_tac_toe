@@ -49,14 +49,18 @@ public class ReinforcementLearningPlayer implements Player {
 
 		int totalValue = 0;
 		for (Move move : moves) {
-			totalValue+=move.getValue();
+			if (move.getValue() > 0) {
+				totalValue+=move.getValue();
+			}
 		}
 
 		Random random = new Random();
 		int moveScore = random.nextInt(totalValue) +1;
 
 		for (Move move: moves) {
-			moveScore-=move.getValue();
+			if (move.getValue() > 0) {
+				moveScore-=move.getValue();
+			}
 			if (moveScore <= 0) {
 				board.move(move.getMove()[0], move.getMove()[1]);
 				movesMadeGame.add(move);
