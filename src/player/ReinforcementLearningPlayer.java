@@ -20,7 +20,7 @@ public class ReinforcementLearningPlayer implements Player {
 	private Map<Integer, Move> movesMadeAll;
 
 	private int winGain = 10;
-	private int lossGain = -30;
+	private int lossGain = -10;
 	private int tieGain = 1;
 
 	private boolean printScore = true;
