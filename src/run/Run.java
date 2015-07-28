@@ -17,7 +17,8 @@ public class Run {
 
 	private static Player humanPlayer;
 	private static RandomLookaheadPlayer randomLookaheadPlayer;
-	private static ReinforcementLearningPlayer rlPlayer;
+	private static ReinforcementLearningPlayer rlPlayer1;
+	private static ReinforcementLearningPlayer rlPlayer2;
 
 	private static boolean alternatingTurns = true;
 
@@ -26,7 +27,8 @@ public class Run {
 
 		humanPlayer = new HumanPlayer();
 		randomLookaheadPlayer = new RandomLookaheadPlayer();
-		rlPlayer = new ReinforcementLearningPlayer();
+		rlPlayer1 = new ReinforcementLearningPlayer();
+		rlPlayer2 = new ReinforcementLearningPlayer();
 
 		mainMenu();
 	}
@@ -36,8 +38,9 @@ public class Run {
 		System.out.println("__________");
 		System.out.println("(1) Play");
 		System.out.println("(2) Options");
-		System.out.println("(3) Reinforement Learning Player Options");
-		System.out.println("(4) Exit");
+		System.out.println("(3) Reinforement Learning Player 1 Options");
+		System.out.println("(4) Reinforement Learning Player 1 Options");
+		System.out.println("(5) Exit");
 
 		String option = KB.nextLine();
 
@@ -46,9 +49,11 @@ public class Run {
 				break;
 			case "2": optionMenu();
 				break;
-			case "3": rlPlayerOptions();
+			case "3": rlPlayerOptions(rlPlayer1);
 				break;
-			case "4": exit();
+			case "4": rlPlayerOptions(rlPlayer2);
+				break;
+			case "5": exit();
 			default : mainMenu();
 		}
 	}
@@ -106,7 +111,7 @@ public class Run {
 		optionMenu();
 	}
 
-	private static void rlPlayerOptions() {
+	private static void rlPlayerOptions(ReinforcementLearningPlayer rlPlayer) {
 		System.out.println("Learner Option:");
 		System.out.println("______________");
 
@@ -134,7 +139,7 @@ public class Run {
 				return;
 		}
 
-		rlPlayerOptions();
+		rlPlayerOptions(rlPlayer);
 	}
 
 	private static int getNextInt() {
@@ -160,6 +165,7 @@ public class Run {
 		System.out.println("(1) Human");
 		System.out.println("(2) Random Lookahead");
 		System.out.println("(3) Reinforcement Learning Player 1");
+		System.out.println("(3) Reinforcement Learning Player 2");
 
 		Player player;
 
@@ -170,7 +176,9 @@ public class Run {
 				break;
 			case "2": player = randomLookaheadPlayer;
 				break;
-			case "3": player = rlPlayer;
+			case "3": player = rlPlayer1;
+				break;
+			case "4": player = rlPlayer2;
 				break;
 			default : return getPlayer(number);
 		}
