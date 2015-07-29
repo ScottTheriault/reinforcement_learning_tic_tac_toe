@@ -23,7 +23,7 @@ public class ReinforcementLearningPlayer implements Player {
 	private int lossGain = -10;
 	private int tieGain = 1;
 
-	private int movesBonus = 2;
+	private int movesBonus = 4;
 
 	private boolean printScore = true;
 	private int printOn = 10;
@@ -103,17 +103,17 @@ public class ReinforcementLearningPlayer implements Player {
 	}
 
 	private void updateValues(int gain, Board board) {
-		int turnBonus = gain;
-		for (Move move: movesMadeGame) {
-			move.setValue(move.getValue() + turnBonus);
-			if (movesMadeAll.get(move.getId()) == null) {
-				move.setValue(move.getValue() + turnBonus);
-				movesMadeAll.put(move.getId(), move);
-			} else {
+		for (int i = 0; i < movesMadeGame.size(); i++) {
+			Move move = movesMadeGame.get(i);
+			int bonusGain = Math.max(0, movesBonus - movesMadeGame.size() + i);
+			int value = move.getValue() + gain + (gain > 0 ? bonusGain : -bonusGain);
+			move.setValue(value);
+			if (movesMadeAll.containsKey(move.getId())) {
 				Move allMove = movesMadeAll.get(move.getId());
-				allMove.setValue(allMove.getValue()+turnBonus);
+				allMove.setValue(value);
+			} else {
+				movesMadeAll.put(move.getId(), move);
 			}
-			turnBonus+=(gain > 0) ? movesBonus : -movesBonus;
 		}
 		movesMadeGame = new ArrayList<Move>();
 	}
